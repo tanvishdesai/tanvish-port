@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Sora, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const sora = Sora({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-sora",
+  display: "swap",
 });
 
-const jetbrains = JetBrains_Mono({
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  variable: "--font-space-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Tanvish Desai — AI/ML Researcher & Developer",
+  title: "Tanvish Desai | AI/ML Researcher and Creative Builder",
   description:
-    "Portfolio of Tanvish Desai — building efficient AI systems, from multimodal deepfake detection to edge-deployed foundation models. Published researcher with expertise in PyTorch, Vision Transformers, and full-stack development.",
+    "Portfolio of Tanvish Desai: AI/ML researcher and full-stack builder focused on efficient models, multimodal intelligence, and creative product experiences.",
   keywords: [
     "Tanvish Desai",
     "AI researcher",
@@ -27,9 +30,9 @@ export const metadata: Metadata = {
     "full-stack developer",
   ],
   openGraph: {
-    title: "Tanvish Desai — AI/ML Researcher & Developer",
+    title: "Tanvish Desai | AI/ML Researcher and Creative Builder",
     description:
-      "Building efficient AI systems — from multimodal deepfake detection to edge-deployed foundation models.",
+      "Building efficient AI systems from multimodal deepfake detection to edge-deployed foundation models.",
     type: "website",
   },
 };
@@ -41,9 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body
-        className={`${inter.variable} ${jetbrains.variable} font-sans antialiased`}
-      >
+      <body className={`${sora.variable} ${spaceMono.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

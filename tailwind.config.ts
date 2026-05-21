@@ -10,10 +10,12 @@ const config: Config = {
       colors: {
         surface: "#0f172a",
         card: "rgba(15, 23, 42, 0.5)",
+        paper: "#f6f2ea",
+        ink: "#18131f",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        mono: ["var(--font-jetbrains)", "monospace"],
+        sans: ["var(--font-sora)", "system-ui", "sans-serif"],
+        mono: ["var(--font-space-mono)", "monospace"],
       },
       animation: {
         "gradient-shift": "gradient-shift 8s ease infinite",

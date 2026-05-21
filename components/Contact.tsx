@@ -1,80 +1,77 @@
 "use client";
 
-import { Mail, Phone, Github, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Github, Mail, Phone } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 
 const links = [
   {
-    icon: <Mail size={22} />,
+    icon: <Mail size={20} />,
     label: "Email",
     value: "tanvishdesai.05@gmail.com",
     href: "mailto:tanvishdesai.05@gmail.com",
   },
   {
-    icon: <Phone size={22} />,
+    icon: <Phone size={20} />,
     label: "Phone",
     value: "+91 9016505667",
     href: "tel:+919016505667",
   },
   {
-    icon: <Github size={22} />,
+    icon: <Github size={20} />,
     label: "GitHub",
-    value: "TanvishDesai",
+    value: "github.com/TanvishDesai",
     href: "https://github.com/TanvishDesai",
+    external: true,
   },
 ];
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 md:py-32 relative">
-      <div className="max-w-4xl mx-auto px-6 text-center">
+    <section id="contact" className="px-6 py-20 md:py-24">
+      <div className="mx-auto max-w-6xl">
         <AnimatedSection>
-          <span className="inline-block font-mono text-sm tracking-wider text-cyan-400 mb-3">
-            // contact
-          </span>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-100 mb-6">
-            Let&apos;s{" "}
-            <span className="gradient-text">Work Together</span>
-          </h2>
-          <p className="text-slate-400 text-lg max-w-xl mx-auto mb-12 leading-relaxed">
-            I&apos;m open to research internships, collaborations, and
-            opportunities in efficient AI systems and multimodal learning.
-          </p>
-        </AnimatedSection>
+          <div className="surface-card-strong p-7 text-center md:p-10">
+            <p className="section-kicker">contact</p>
+            <h2 className="headline-gradient mt-3 text-3xl font-bold tracking-tight md:text-5xl text-balance">
+              Let&apos;s build something ambitious
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-black/72 md:text-lg">
+              I&apos;m available for research internships, product collaborations, and AI engineering opportunities where performance and creativity both matter.
+            </p>
 
-        <AnimatedSection delay={0.15}>
-          <a
-            href="mailto:tanvishdesai.05@gmail.com"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-500 to-violet-500 text-white font-medium text-lg hover:opacity-90 transition-all hover:shadow-lg hover:shadow-cyan-500/25 mb-12"
-          >
-            Say Hello
-            <ArrowUpRight size={20} />
-          </a>
-        </AnimatedSection>
-
-        <AnimatedSection delay={0.25}>
-          <div className="grid sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
-            {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target={link.label === "GitHub" ? "_blank" : undefined}
-                rel={link.label === "GitHub" ? "noopener noreferrer" : undefined}
-                className="glass rounded-2xl p-5 flex flex-col items-center gap-3 group hover:bg-slate-900/40 transition-all gradient-border"
-              >
-                <div className="text-slate-400 group-hover:text-cyan-400 transition-colors">
-                  {link.icon}
-                </div>
-                <div>
-                  <div className="text-xs text-slate-500 mb-0.5">
-                    {link.label}
-                  </div>
-                  <div className="text-sm text-slate-300 font-medium">
-                    {link.value}
-                  </div>
-                </div>
+            <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <a href="mailto:tanvishdesai.05@gmail.com" className="button-primary inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold md:text-base">
+                Start a Conversation
+                <ArrowUpRight size={16} />
               </a>
-            ))}
+              <a
+                href="https://github.com/TanvishDesai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="button-outline inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-black/85 md:text-base"
+              >
+                <Github size={16} />
+                GitHub Profile
+              </a>
+            </div>
+
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              {links.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.external ? "_blank" : undefined}
+                  rel={link.external ? "noopener noreferrer" : undefined}
+                  className="surface-card flex items-center gap-3 px-4 py-4 text-left hover:bg-white"
+                >
+                  <span className="rounded-lg border border-black/15 bg-white p-2 text-black/70">{link.icon}</span>
+                  <span>
+                    <span className="block text-xs uppercase tracking-widest text-black/55">{link.label}</span>
+                    <span className="text-sm font-medium text-black/80">{link.value}</span>
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
         </AnimatedSection>
       </div>

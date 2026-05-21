@@ -1,66 +1,61 @@
 "use client";
 
-import { Trophy, Users, Zap, BookOpen } from "lucide-react";
+import { BookOpen, Trophy, Users, Zap } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import SectionHeading from "./SectionHeading";
 
 const achievements = [
   {
-    icon: <BookOpen size={20} />,
-    title: "Published Researcher",
+    icon: <BookOpen size={18} />,
+    title: "Published Research",
     description:
-      "Paper published at ICDSA 2025 (Springer, Scopus-Indexed). 3 papers accepted at AICCoNS 2026. Additional manuscripts in preparation.",
-    accent: "text-emerald-400 bg-emerald-500/10",
+      "Paper published at ICDSA 2025 (Springer, Scopus Indexed) and three papers accepted at AICCoNS 2026.",
+    tone: "text-[#149e6f] bg-[#149e6f]/12 border-[#149e6f]/25",
   },
   {
-    icon: <Zap size={20} />,
-    title: "IdeaOne 2025 — Zonal Finals",
+    icon: <Zap size={18} />,
+    title: "IdeaOne 2025 Zonal Finalist",
     description:
-      "Built complete AI/ML modules for the IdeaOne Hackathon (ICMR, Pune), reaching the Zonal Finals with an end-to-end solution.",
-    accent: "text-amber-400 bg-amber-500/10",
+      "Built complete AI/ML modules for the ICMR Pune challenge and reached zonal finals with an end-to-end solution.",
+    tone: "text-[#f05e2f] bg-[#f05e2f]/12 border-[#f05e2f]/25",
   },
   {
-    icon: <Trophy size={20} />,
-    title: "4th Runner-Up — Impactthon, KSV",
+    icon: <Trophy size={18} />,
+    title: "Impactthon, KSV",
     description:
-      "Competed and placed at the Impactthon hackathon at KSV, demonstrating rapid prototyping and problem-solving.",
-    accent: "text-cyan-400 bg-cyan-500/10",
+      "Placed as 4th runner-up, demonstrating rapid product thinking and execution under tight hackathon constraints.",
+    tone: "text-[#2b57ef] bg-[#2b57ef]/12 border-[#2b57ef]/25",
   },
   {
-    icon: <Users size={20} />,
+    icon: <Users size={18} />,
     title: "10+ National Hackathons",
     description:
-      "Led and contributed to teams in SIH, SSIP, Tic-Tech-Toe, UYIR, Mindbend, Intel AI, and ISRO-affiliated events.",
-    accent: "text-violet-400 bg-violet-500/10",
+      "Participated in SIH, SSIP, UYIR, Mindbend, Intel AI and ISRO-affiliated events with cross-functional teams.",
+    tone: "text-[#6a46d4] bg-[#6a46d4]/12 border-[#6a46d4]/25",
   },
 ];
 
 export default function Achievements() {
   return (
-    <section id="achievements" className="py-24 md:py-32 relative">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="achievements" className="px-6 py-20 md:py-24">
+      <div className="mx-auto max-w-7xl">
         <SectionHeading
-          label="// achievements"
-          title="Highlights"
-          description="Awards, publications, and experiences that shaped my journey."
+          label="highlights"
+          title="Milestones that shaped my craft"
+          description="Competitive wins, publications, and high-pressure builds that sharpened execution."
+          align="left"
         />
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {achievements.map((item, i) => (
-            <AnimatedSection key={item.title} delay={i * 0.1}>
-              <div className="glass rounded-2xl p-6 md:p-8 h-full gradient-border group">
-                <div
-                  className={`p-3 rounded-xl ${item.accent} w-fit mb-4`}
-                >
-                  {item.icon}
-                </div>
-                <h3 className="text-lg font-semibold text-slate-100 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          {achievements.map((achievement, index) => (
+            <AnimatedSection key={achievement.title} delay={index * 0.08}>
+              <article className="surface-card-strong h-full p-6">
+                <span className={`inline-flex rounded-xl border p-2.5 ${achievement.tone}`}>
+                  {achievement.icon}
+                </span>
+                <h3 className="mt-4 text-lg font-semibold text-black">{achievement.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-black/70">{achievement.description}</p>
+              </article>
             </AnimatedSection>
           ))}
         </div>

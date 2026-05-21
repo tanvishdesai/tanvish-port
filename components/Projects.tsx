@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, Brain, Code2, Wrench, Palette } from "lucide-react";
+import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowUpRight, Brain, Code2, Github, Palette, Wrench } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import SectionHeading from "./SectionHeading";
 
@@ -12,11 +12,12 @@ interface Project {
   title: string;
   description: string;
   tech: string[];
-  category: Category;
-  accent: string;
-  icon: React.ReactNode;
-  highlights?: string;
+  category: Exclude<Category, "all">;
+  highlight: string;
+  query: string;
 }
+
+const githubProfile = "https://github.com/TanvishDesai";
 
 const categories: { id: Category; label: string }[] = [
   { id: "all", label: "All" },
@@ -30,220 +31,245 @@ const projects: Project[] = [
   {
     title: "PIN-Lite",
     description:
-      "Multimodal deepfake detection with ~8.5× model compression and ~2.2× inference speedup via distillation-and-pruning for edge deployment. Includes explainability preservation scoring.",
-    tech: ["PyTorch", "Multimodal", "XAI", "Distillation"],
+      "Multimodal deepfake detection with aggressive compression for edge deployment while preserving explainability.",
+    tech: ["PyTorch", "Multimodal", "Distillation", "XAI"],
     category: "research",
-    accent: "from-cyan-500/20 to-blue-500/20",
-    icon: <Brain size={20} />,
-    highlights: "8.5× compression",
+    highlight: "8.5x compression",
+    query: "PIN-Lite",
   },
   {
     title: "MMLLM-MedXAI",
     description:
-      "Breast cancer histopathology analysis using centralized attention CNNs (EFSANet) and federated learning (FedAlert/FedProx) on PatchCamelyon and BreakHis datasets.",
-    tech: ["PyTorch", "Federated Learning", "CNNs", "Medical AI"],
+      "Breast cancer histopathology pipeline combining centralized attention CNNs and federated optimization strategies.",
+    tech: ["PyTorch", "Federated Learning", "Medical AI"],
     category: "research",
-    accent: "from-rose-500/20 to-pink-500/20",
-    icon: <Brain size={20} />,
-    highlights: "Federated Learning",
+    highlight: "Federated Imaging",
+    query: "MMLLM-MedXAI",
   },
   {
     title: "HGT-VD",
     description:
-      "Hybrid Generative Transformer for video-level deepfake detection combining 3D CNNs, transformers, and generative components with face/identity pipeline.",
+      "Video-level deepfake detection using 3D CNNs, transformer reasoning, and generative reconstruction signals.",
     tech: ["PyTorch", "3D CNN", "Transformers", "Video Analysis"],
     category: "research",
-    accent: "from-amber-500/20 to-orange-500/20",
-    icon: <Brain size={20} />,
-    highlights: "Video Deepfakes",
+    highlight: "Hybrid Pipeline",
+    query: "HGT-VD",
   },
   {
     title: "DINO-Ranger",
     description:
-      "Super-resolution model using hybrid Swin Transformer with DINO-based perceptual supervision. Outperformed baselines on Urban100 by +2.05 dB PSNR.",
+      "Super-resolution model with DINO-driven perceptual supervision and frequency-domain objectives.",
     tech: ["Vision Transformers", "SwinIR", "DINO", "FFT"],
     category: "research",
-    accent: "from-emerald-500/20 to-teal-500/20",
-    icon: <Brain size={20} />,
-    highlights: "+2.05 dB PSNR",
+    highlight: "+2.05 dB PSNR",
+    query: "DINO-Ranger",
   },
   {
     title: "StrideX",
     description:
-      "Gamified fitness app with territory claiming, neighborhood leaderboards, wellness tracking, and real-time geospatial features powered by Convex backend.",
-    tech: ["React Native", "Expo", "Convex", "MapLibre", "Turf.js"],
+      "Gamified fitness app with geospatial territory claiming, community leaderboards, and wellness progression.",
+    tech: ["React Native", "Expo", "Convex", "MapLibre"],
     category: "applications",
-    accent: "from-green-500/20 to-emerald-500/20",
-    icon: <Code2 size={20} />,
-    highlights: "Mobile App",
+    highlight: "Mobile + Geospatial",
+    query: "StrideX",
   },
   {
     title: "WhatsApp Evolved",
     description:
-      "Real-time web dashboard for WhatsApp with QR login, WebSocket sync, JWT auth, and split local/cloud deployment model using tunneling.",
-    tech: ["Node.js", "Socket.IO", "MongoDB", "Next.js", "JWT"],
+      "Real-time dashboard with QR login, websocket sync, and secure split cloud/local deployment model.",
+    tech: ["Node.js", "Socket.IO", "MongoDB", "JWT"],
     category: "applications",
-    accent: "from-green-500/20 to-lime-500/20",
-    icon: <Code2 size={20} />,
-    highlights: "Real-time",
+    highlight: "Real-time System",
+    query: "WhatsApp Evolved",
   },
   {
     title: "Compere",
     description:
-      "Film screening community platform for Ahmedabad — movie listings, bookings, UPI payments, admin dashboard, and gallery with Convex backend.",
-    tech: ["Next.js 15", "React 19", "Convex", "Shadcn UI", "Zod"],
+      "Community film-screening platform with bookings, payment flows, and admin operations dashboard.",
+    tech: ["Next.js", "React", "Convex", "Zod"],
     category: "applications",
-    accent: "from-violet-500/20 to-purple-500/20",
-    icon: <Code2 size={20} />,
-    highlights: "Full-Stack",
+    highlight: "Full-stack Product",
+    query: "Compere",
   },
   {
     title: "SQL Sheet AI",
     description:
-      "AI-assisted spreadsheet running DuckDB SQL queries in the browser via WASM, with Google GenAI for natural-language-to-SQL conversion over CSV data.",
-    tech: ["Next.js", "DuckDB WASM", "Google GenAI", "Papa Parse"],
+      "Browser-based spreadsheet with DuckDB WASM and natural language to SQL query generation.",
+    tech: ["Next.js", "DuckDB WASM", "GenAI"],
     category: "ai-tools",
-    accent: "from-blue-500/20 to-indigo-500/20",
-    icon: <Wrench size={20} />,
-    highlights: "In-Browser SQL",
+    highlight: "In-browser Analytics",
+    query: "SQL Sheet AI",
   },
   {
     title: "Research Assistant",
     description:
-      "Academic paper pipeline ingesting ArXiv papers into Neo4j (graph) and ChromaDB (embeddings) for semantic retrieval and knowledge-graph navigation.",
-    tech: ["FastAPI", "Neo4j", "ChromaDB", "Sentence-Transformers"],
+      "Paper ingestion and retrieval engine combining graph databases and embedding stores for deep exploration.",
+    tech: ["FastAPI", "Neo4j", "ChromaDB", "RAG"],
     category: "ai-tools",
-    accent: "from-sky-500/20 to-cyan-500/20",
-    icon: <Wrench size={20} />,
-    highlights: "Dual-Store RAG",
+    highlight: "Knowledge Graph + RAG",
+    query: "Research Assistant",
   },
   {
     title: "MediPredict AI",
     description:
-      "Multi-module medical risk prediction (heart, liver, ECG) using XGBoost and ResNet models with Google Gemini-powered explanations.",
-    tech: ["FastAPI", "React", "XGBoost", "ResNet", "Gemini"],
+      "Clinical risk prediction suite with model-based explanations for heart, liver, and ECG diagnostics.",
+    tech: ["FastAPI", "React", "XGBoost", "ResNet"],
     category: "ai-tools",
-    accent: "from-red-500/20 to-rose-500/20",
-    icon: <Wrench size={20} />,
-    highlights: "Medical AI",
-  },
-  {
-    title: "Audio Spectrogram Painter",
-    description:
-      "Upload audio, visually edit its mel spectrogram in the browser, then reconstruct modified audio — full round-trip with phase-cache storage.",
-    tech: ["FastAPI", "Next.js", "Docker", "Audio Processing"],
-    category: "creative",
-    accent: "from-fuchsia-500/20 to-pink-500/20",
-    icon: <Palette size={20} />,
-    highlights: "Audio × Visual",
+    highlight: "Medical Intelligence",
+    query: "MediPredict AI",
   },
   {
     title: "Gauntlet Benchmark",
     description:
-      "Multi-agent RL robustness benchmark library (PyPI) with adversarial, environmental, and temporal evaluation suites for policy robustness testing.",
+      "Robustness benchmark package for multi-agent policies under adversarial and temporal stress settings.",
     tech: ["Python", "MARL", "OpenSpiel", "PettingZoo"],
     category: "ai-tools",
-    accent: "from-orange-500/20 to-amber-500/20",
-    icon: <Wrench size={20} />,
-    highlights: "PyPI Package",
+    highlight: "PyPI Library",
+    query: "Gauntlet Benchmark",
+  },
+  {
+    title: "Audio Spectrogram Painter",
+    description:
+      "Creative audio tool to edit mel spectrograms visually and reconstruct transformed waveforms.",
+    tech: ["FastAPI", "Next.js", "DSP", "Docker"],
+    category: "creative",
+    highlight: "Audio x Visual",
+    query: "Audio Spectrogram Painter",
   },
   {
     title: "Space Shooter",
     description:
-      "Hand-gesture controlled space shooter using MediaPipe hand tracking — dual control modes (gesture + keyboard), bosses, and power-ups.",
+      "Gesture-controlled game experience with hand tracking, bosses, and keyboard fallback controls.",
     tech: ["Pygame", "MediaPipe", "OpenCV", "NumPy"],
     category: "creative",
-    accent: "from-indigo-500/20 to-violet-500/20",
-    icon: <Palette size={20} />,
-    highlights: "Gesture Control",
+    highlight: "Gesture Gaming",
+    query: "Space Shooter",
   },
 ];
+
+const categoryMeta = {
+  research: { icon: Brain, tone: "from-[#2b57ef]/18 via-[#5f77ff]/15 to-transparent" },
+  applications: { icon: Code2, tone: "from-[#149e6f]/18 via-[#48b58f]/12 to-transparent" },
+  "ai-tools": { icon: Wrench, tone: "from-[#f05e2f]/17 via-[#f89a6f]/12 to-transparent" },
+  creative: { icon: Palette, tone: "from-[#8f67f5]/16 via-[#d2b8ff]/12 to-transparent" },
+};
+
+const buildRepoUrl = (query: string) => {
+  const q = encodeURIComponent(query);
+  return `${githubProfile}?tab=repositories&q=${q}&type=&language=&sort=`;
+};
 
 export default function Projects() {
   const [active, setActive] = useState<Category>("all");
 
-  const filtered =
-    active === "all" ? projects : projects.filter((p) => p.category === active);
+  const filtered = useMemo(
+    () => (active === "all" ? projects : projects.filter((project) => project.category === active)),
+    [active],
+  );
 
   return (
-    <section id="projects" className="py-24 md:py-32 relative">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="projects" className="px-6 py-20 md:py-24">
+      <div className="mx-auto max-w-7xl">
         <SectionHeading
-          label="// projects"
-          title="Selected Work"
-          description="A mix of research prototypes, full-stack applications, and creative experiments."
+          label="projects"
+          title="Selected work across research, product, and creative builds"
+          description="Every card links to GitHub so your code is one click away."
+          align="left"
         />
 
         <AnimatedSection>
-          <div className="flex flex-wrap justify-center gap-2 mb-12">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActive(cat.id)}
-                className={`px-5 py-2 text-sm font-medium rounded-full transition-all ${
-                  active === cat.id
-                    ? "bg-gradient-to-r from-cyan-500 to-violet-500 text-white"
-                    : "glass text-slate-400 hover:text-slate-200"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
+          <div className="surface-card mb-8 flex flex-col gap-4 p-4 md:flex-row md:items-center md:justify-between md:p-5">
+            <div className="flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setActive(category.id)}
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                    active === category.id
+                      ? "bg-black text-white"
+                      : "border border-black/15 bg-white/75 text-black/70 hover:bg-white"
+                  }`}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
+
+            <a
+              href={githubProfile}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button-outline inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-black/80"
+            >
+              <Github size={16} />
+              Open GitHub Profile
+            </a>
           </div>
         </AnimatedSection>
 
-        <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <motion.div layout className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project) => (
-              <motion.div
-                key={project.title}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="glass rounded-2xl overflow-hidden group hover:bg-slate-900/40 transition-all gradient-border h-full flex flex-col">
-                  <div
-                    className={`h-2 bg-gradient-to-r ${project.accent}`}
-                  />
-                  <div className="p-6 flex-1 flex flex-col">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-slate-800/80 text-cyan-400">
-                          {project.icon}
-                        </div>
+            {filtered.map((project) => {
+              const meta = categoryMeta[project.category];
+              const CategoryIcon = meta.icon;
+
+              return (
+                <motion.article
+                  layout
+                  key={project.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 12 }}
+                  transition={{ duration: 0.25 }}
+                  className="surface-card-strong flex h-full flex-col overflow-hidden"
+                >
+                  <div className={`h-1.5 w-full bg-gradient-to-r ${meta.tone}`} />
+
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="mb-3 flex items-start justify-between gap-3">
+                      <div className="flex items-start gap-3">
+                        <span className="rounded-lg border border-black/15 bg-white/70 p-2 text-black/70">
+                          <CategoryIcon size={18} />
+                        </span>
                         <div>
-                          <h3 className="font-semibold text-slate-100 text-lg">
-                            {project.title}
-                          </h3>
-                          {project.highlights && (
-                            <span className="text-xs font-mono text-cyan-400">
-                              {project.highlights}
-                            </span>
-                          )}
+                          <h3 className="text-lg font-semibold text-black">{project.title}</h3>
+                          <p className="mt-0.5 text-xs font-mono uppercase tracking-[0.15em] text-black/55">{project.highlight}</p>
                         </div>
                       </div>
                     </div>
 
-                    <p className="text-sm text-slate-400 leading-relaxed mb-4 flex-1">
-                      {project.description}
-                    </p>
+                    <p className="text-sm leading-relaxed text-black/70">{project.description}</p>
 
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.tech.map((t) => (
-                        <span
-                          key={t}
-                          className="px-2 py-0.5 text-[11px] font-mono rounded bg-slate-800/60 text-slate-500 border border-slate-700/30"
-                        >
-                          {t}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {project.tech.map((item) => (
+                        <span key={item} className="ghost-chip px-2.5 py-1 text-xs font-mono text-black/75">
+                          {item}
                         </span>
                       ))}
                     </div>
+
+                    <div className="mt-5 flex gap-2">
+                      <a
+                        href={buildRepoUrl(project.query)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="button-outline inline-flex flex-1 items-center justify-center gap-2 px-3 py-2.5 text-sm font-medium text-black/80"
+                      >
+                        <Github size={15} />
+                        GitHub
+                      </a>
+                      <a
+                        href="#contact"
+                        className="button-outline inline-flex flex-1 items-center justify-center gap-2 px-3 py-2.5 text-sm font-medium text-black/80"
+                      >
+                        Discuss
+                        <ArrowUpRight size={15} />
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.article>
+              );
+            })}
           </AnimatePresence>
         </motion.div>
       </div>

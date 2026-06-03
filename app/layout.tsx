@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, Space_Mono } from "next/font/google";
 import "./globals.css";
-
+import ConvexClientProvider from "@/components/ConvexClientProvider";
 const sora = Sora({
   subsets: ["latin"],
   variable: "--font-sora",
@@ -45,7 +45,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${sora.variable} ${spaceMono.variable} font-sans antialiased`}>
-        {children}
+        <ConvexClientProvider>
+          {children}
+        </ConvexClientProvider>
       </body>
     </html>
   );
